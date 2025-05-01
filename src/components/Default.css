@@ -28,6 +28,28 @@ body {
   z-index: 10; /* Keep header above other content */
 }
 
+.footer {
+  padding-top: 4%;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: #292929;
+}
+
+.footer-image img{
+  max-width: 80px;
+  max-height: 80px;
+}
+.footer-image{
+  padding: 6%;
+}
+.left-footer{
+  padding-left: 15.5%;
+}
+.right-footer{
+  padding-right: 15%;
+}
+
 /* Logo container */
 .logo-container {
   flex-basis: 100px; /* Suggested width for the logo area */
@@ -245,6 +267,7 @@ body {
   .platform-button {
     width: 180px;
   }
+  /* Stack social buttons vertically */
 }
 
 /* Styles for screens <= 480px (Mobile phones) */
