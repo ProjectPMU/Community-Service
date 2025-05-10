@@ -131,21 +131,23 @@ function Showcase() {
   useEffect(() => {
     const scroller = storyScrollerRef.current;
     if (!scroller) return;
-
+  
     let scrollInterval;
-    const scrollSpeed = 1;
-    const scrollIntervalTime = 40; // Milliseconds between scroll steps
-
+    const scrollSpeed = 0.5;
+    const scrollIntervalTime = 10; // Milliseconds between scroll steps
+  
     // Prevents manual mouse wheel scrolling during auto-scroll.
     const handleWheel = (event) => {
       event.preventDefault();
     };
-
+  
     const startScrolling = () => {
       if (isStoryResetting) return; // Don't scroll if currently resetting
-
+  
+      // Enable smooth scrolling for the auto-scroll
+      scroller.style.scrollBehavior = 'smooth';
       scroller.addEventListener("wheel", handleWheel, { passive: false });
-
+      
       scrollInterval = setInterval(() => {
         if (
           scroller.scrollTop <
@@ -162,10 +164,18 @@ function Showcase() {
               storyScrollerRef.current.style.opacity = "0";
             }
             setTimeout(() => {
-              // Reset scroll and fade in
+              // Disable smooth scrolling for the reset
               if (storyScrollerRef.current) {
+                storyScrollerRef.current.style.scrollBehavior = 'auto';
                 storyScrollerRef.current.scrollTop = 0;
                 storyScrollerRef.current.style.opacity = "1";
+                
+                // Small delay before re-enabling smooth scrolling for next cycle
+                setTimeout(() => {
+                  if (storyScrollerRef.current) {
+                    storyScrollerRef.current.style.scrollBehavior = 'smooth';
+                  }
+                }, 50);
               }
               setIsStoryResetting(false); // End reset sequence
             }, 500); // Duration of fade out
@@ -173,11 +183,11 @@ function Showcase() {
         }
       }, scrollIntervalTime);
     };
-
+  
     if (!isStoryResetting) {
       startScrolling(); // Start or resume scrolling
     }
-
+  
     return () => {
       // Cleanup on component unmount or re-render
       clearInterval(scrollInterval);
